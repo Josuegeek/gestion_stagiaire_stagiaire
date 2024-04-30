@@ -1,3 +1,10 @@
+<?php
+if (session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
+require("./enginePhp/main.php");
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -21,17 +28,19 @@
     <div class="isjoverform2 isjform-hide">
         <div id="signupFrm" class="signupFrm">
             <div class="wrapper">
-                <form class="form" action="./enginePhp/encadreur_crud.php" method="POST">
+                <form id="work-form" class="form" enctype="multipart/form-data" action="./enginePhp/travaux_crud.php" method="POST">
                     <div id="form-title" class="top-title">Deposer le travail N°</div>
                     <br>
-                    <b>Travail pour le rapport de l'enquete</b>
-                    <p>publié le 10/10/2024</p>
+                    <b  id="work-title">Travail pour le rapport de l'enquete</b>
+                    <p style="font-size: 12px;" id="pub-date">publié le 10/10/2024</p>
+                    <p style="font-size: 12px;" id="fin-date">à deposer jusqu'au le 10/10/2024</p>
                     <br>
                     <br>
-                    
+
                     <div style="display: none;" class="inputContainer">
-                        <input id="id" name="id" type="number" placeholder="a" class="input" value="5" required>
+                        <input id="id" name="id" type="number" placeholder="a" class="input" required>
                         <label for="id" class="label">Numéro du travail</label>
+                        <input type="text" require value="insert" id="operation" name="operation">
                     </div>
                     <div class="inputContainer">
                         <textarea class="input" name="comment" id="comment" cols="10" rows="5"></textarea>
@@ -42,13 +51,13 @@
                         <label for="fichier" class="label">Fichier</label>
                     </div>
                     <div class="file-shower">
-                        <div class="row align-center jr">
+                        <div class="row align-center jr gap">
                             <span>Mon fichier.pdf</span>
                             <i style="color: var(--blue);font-size: 40px;" class="fa fa-file"></i>
                         </div>
                     </div>
                     <div class="row gap">
-                        <button id="btn-add-enc" class="btn">Deposer</button>
+                        <button id="btn-submit" class="btn">Deposer</button>
                         <div onclick="closeIsjForm2(0)" class="btn btn-secondary">Annuler</div>
                     </div>
 
@@ -85,7 +94,11 @@
                     <a href="./mes-travaux.php">
                         <span class="icon">
                             <i class="ti-plus"></i>
-                            <p class="notif-num">10</p>
+                            <?php
+                            if ($notSubmittedWorksNum > 0) {
+                                echo "<p class=\"notif-num\">$notSubmittedWorksNum</p>";
+                            }
+                            ?>
                         </span>
                         <span class="title">Mes travaux</span>
                     </a>
@@ -123,25 +136,29 @@
                     <input type="checkbox" name="dropdown-check" id="dropdown-check">
                     <div class="bell-container">
                         <i class="fa fa-bell"></i>
-                        <p class="notif-num">10</p>
+                        <?php
+                        if ($notSubmittedWorksNum > 0) {
+                            echo "<p class=\"notif-num\">$notSubmittedWorksNum</p>";
+                        }
+                        ?>
                     </div>
                     <div class="dropdown-content">
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
+                        <?php
+                        if ($notSubmittedWorksNum > 0) {
+                            foreach ($notSubmittedWorks as $workindex => $work) {
+                                $description = $work["description"];
+                                $id = $work["id"];
+                                $date = $work["date_fin"];
+                                echo "<a class=\"row gap align-center\" href=\"#\">
+                                            <p>$description à deposer au plus tard $date</p>
+                                            <i class=\"fa fa-bell\"></i>
+                                        </a>";
+                            }
+                        }
+                        else{
+                            echo "Pas de tâche pour le moment";
+                        }
+                        ?>
                     </div>
                 </div>
 
@@ -166,6 +183,7 @@
                                 <td>Num</td>
                                 <td>Description du tavail</td>
                                 <td>Date de publication</td>
+                                <td>Date fin depôt</td>
                                 <td>Statut</td>
                                 <td>points obenu</td>
                                 <td>Action</td>
@@ -184,6 +202,7 @@
     <!-- =========== Scripts =========  -->
     <script src="../gestion_stagiaire/assets/isjoverform/isjoverform.js"></script>
     <script src="../gestion_stagiaire/assets/js/main.js"></script>
+    <script src="./engineJs/list.js"></script>
 
 </body>
 

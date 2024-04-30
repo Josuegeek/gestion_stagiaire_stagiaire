@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connectez-vous</title>
+    <link rel="stylesheet" href="../assets/font-awesome/fontawesome.css">
+    <link rel="stylesheet" href="../gestion_stagiaire/assets/css/style.css">
+    <link rel="stylesheet" href="../gestion_stagiaire/assets/isjoverform/isjoverform.css">
+    <link rel="stylesheet" href="../gestion_stagiaire/assets/themify-icons/themify-icons.css">
+</head>
+<body>
+
+    <div class="isjoverform2">
+        <div id="signupFrm" class="signupFrm">
+            <div class="wrapper">
+                <form class="form" action="./enginePhp/login.php" method="POST">
+                    <div style="color: var(--blue);" id="form-title" class="top-title">Connectez-vous</div>
+                    <br>
+                    <br>
+                    <div style="display: none;" class="inputContainer">
+                        <input id="id" name="id" type="number" placeholder="a" class="input" value="<?php echo $encNum ?>" required>
+                        <label for="id" class="label">ID de l'encadreur</label>
+                    </div>
+                    <div class="inputContainer">
+                        <input id="email" name="email" type="email" placeholder="a" class="input" required>
+                        <label for="email" class="label">Email</label>
+                    </div>
+                    <div class="inputContainer">
+                        <input id="pass" name="pass" type="password" placeholder="a" class="input" required>
+                        <label for="pass" class="label">Code</label>
+                    </div>
+                    <div class="row gap">
+                        <button id="btn-add-enc" class="btn">Login</button>
+                        <div onclick="closeIsjForm2(0)" class="btn btn-secondary">Annuler</div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

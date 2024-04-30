@@ -1,3 +1,10 @@
+<?php
+if (session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
+include("./enginePhp/main.php");
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -44,7 +51,11 @@
                     <a href="./mes-travaux.php">
                         <span class="icon">
                             <i class="ti-plus"></i>
-                            <p class="notif-num">10</p>
+                            <?php
+                            if ($notSubmittedWorksNum > 0) {
+                                echo "<p class=\"notif-num\">$notSubmittedWorksNum</p>";
+                            }
+                            ?>
                         </span>
                         <span class="title">Mes travaux</span>
                     </a>
@@ -82,25 +93,15 @@
                     <input type="checkbox" name="dropdown-check" id="dropdown-check">
                     <div class="bell-container">
                         <i class="fa fa-bell"></i>
-                        <p class="notif-num">10</p>
+
+                        <?php
+                        if ($notSubmittedWorksNum > 0) {
+                            echo "<p class=\"notif-num\">$notSubmittedWorksNum</p>";
+                        }
+                        ?>
                     </div>
                     <div class="dropdown-content">
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
+                        
                     </div>
                 </div>
 
@@ -117,15 +118,15 @@
                         <div class="row wrap gap center">
                             <div class="column align-center">
                                 <small>Departement</small>
-                                <p>Kwuilu</p>
+                                <p>lambda</p>
                             </div>
                             <div class="column align-center">
                                 <small>Téléphone</small>
-                                <p>Kwuilu</p>
+                                <p>lambda</p>
                             </div>
                             <div class="column align-center">
                                 <small>e-mail</small>
-                                <p>Kwuilu</p>
+                                <p>lambda</p>
                             </div>
                         </div>
                         <br>

@@ -1,3 +1,10 @@
+<?php
+if (session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
+include("./enginePhp/main.php");
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -44,7 +51,11 @@
                     <a href="./mes-travaux.php">
                         <span class="icon">
                             <i class="ti-plus"></i>
-                            <p class="notif-num">10</p>
+                            <?php
+                            if ($notSubmittedWorksNum > 0) {
+                                echo "<p class=\"notif-num\">$notSubmittedWorksNum</p>";
+                            }
+                            ?>
                         </span>
                         <span class="title">Mes travaux</span>
                     </a>
@@ -82,9 +93,14 @@
                     <input type="checkbox" name="dropdown-check" id="dropdown-check">
                     <div class="bell-container">
                         <i class="fa fa-bell"></i>
-                        <p class="notif-num">10</p>
+                        <?php
+                        if ($notSubmittedWorksNum > 0) {
+                            echo "<p class=\"notif-num\">$notSubmittedWorksNum</p>";
+                        }
+                        ?>
                     </div>
                     <div class="dropdown-content">
+                        <!------
                         <a class="row align-center gap align-center" href="">
                             <i class="fa-regular fa-file"></i>
                             <b>Depôt du rapport</b>
@@ -101,6 +117,7 @@
                             <i class="fa-regular fa-file"></i>
                             <b>Depôt du rapport</b>
                         </a>
+                        ---->
                     </div>
                 </div>
 
@@ -121,25 +138,25 @@
                         <div class="row wrap gap center">
                             <div class="column align-center">
                                 <small>province d'origine</small>
-                                <p>Kwuilu</p>
+                                <p>lambda</p>
                             </div>
                             <div class="column align-center">
                                 <small>district d'origine</small>
-                                <p>Kwuilu</p>
+                                <p>lambda</p>
                             </div>
                             <div class="column align-center">
                                 <small>vallge d'origine</small>
-                                <p>Kwuilu</p>
+                                <p>lambda</p>
                             </div>
                         </div>
                         <div class="row wrap gap center">
                             <div class="column align-center">
                                 <small>Lieu et date de naissance</small>
-                                <p>Kwuilu, 09/06/2021</p>
+                                <p>lambda, 09/06/2021</p>
                             </div>
                             <div class="column align-center">
                                 <small>Adresse complet</small>
-                                <p>Kwuilu</p>
+                                <p>lambda</p>
                             </div>
                             <div class="column align-center">
                                 <small>Téléphone</small>
@@ -149,35 +166,35 @@
                         <div class="row wrap gap center">
                             <div class="column align-center">
                                 <small>Faculté</small>
-                                <p>Kwuilu</p>
+                                <p>lambda</p>
                             </div>
                             <div class="column align-center">
                                 <small>Departement</small>
-                                <p>Kwuilu</p>
+                                <p>lambda</p>
                             </div>
                             <div class="column align-center">
                                 <small>Directeur</small>
-                                <p>Kwuilu</p>
+                                <p>lambda</p>
                             </div>
                         </div>
                         <div class="row wrap gap">
                             <div class="column align-center">
                                 <small>Stage dans le departement</small>
-                                <b>Kwuilu</b>
+                                <b>lambda</b>
                             </div>
                             <div class="column align-center">
                                 <small>Fonction/titre</small>
-                                <b>Kwuilu</b>
+                                <b>lambda</b>
                             </div>
                         </div>
                         <div class="row wrap gap center">
                             <div class="column align-center">
                                 <small>Date de debut du stage</small>
-                                <b>Kwuilu</b>
+                                <b>lambda</b>
                             </div>
                             <div class="column align-center">
                                 <small>Durée </small>
-                                <b>Kwuilu</b>
+                                <b>lambda</b>
                             </div>
                         </div>
                     </div>

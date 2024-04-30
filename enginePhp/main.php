@@ -2,6 +2,9 @@
 if (session_status() != PHP_SESSION_ACTIVE) {
     session_start();
 }
+if(!isset($_SESSION["stagiaire"])){
+    //header("Location: ./login.html");
+}
 
 $allWorks = array();
 $notSubmittedWorks = array();
@@ -14,8 +17,8 @@ $allWorksNum = 0;
 try {
     // Connexion à la base de données
     $mysqli = new mysqli("localhost", "root", "", "stagiaire", 3306);
-    if (isset($_GET["id"]) && $_GET["id"] != "") {
-        $id = $_GET["id"];
+    if (true) {
+        $id = 14;
 
         $reqAllWorks = "SELECT * FROM travaux_v WHERE id_staigiare=$id ";
         $reqNotSubmittedWorks = "SELECT * FROM travaux_non_deposes WHERE id_staigiare=$id";
@@ -49,23 +52,12 @@ try {
         } 
         */
 
-        echo (json_encode([
-            'status' => 'success',
-            'allWorks' => $allWorks,
-            'nSWorks' => $notSubmittedWorks,
-            'sWorks' => $submittedWorks
-        ]));
+        //echo "<script>console.log('lofjk');</script>";
     }
     else{
-        echo (json_encode([
-            'status' => 'error',
-            'msg' => "No Id fund"
-        ]));
+        //echo "<script>console.log('No Id fund');</script>";
     }
 } catch (Exception $e) {
     $msg = $e->getMessage();
-    echo (json_encode([
-        'status' => 'error',
-        'msg' => $msg
-    ]));
+    echo "<script>console.log('$msg')</script>";
 }

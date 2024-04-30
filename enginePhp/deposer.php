@@ -21,7 +21,7 @@ try {
         //$id = getLastIndex();
 
         $req =  "INSERT INTO travaux_deposes(id_travail, commentaire, fichier)
-                    VALUES ('$idTravail','$comment', '$fichier')";
+                    VALUES ('$idTravail','$comment','$fichier')";
         //echo $req;
 
         if ($mysqli->query($req)) {
