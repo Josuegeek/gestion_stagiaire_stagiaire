@@ -2,9 +2,11 @@
 if (session_status() != PHP_SESSION_ACTIVE) {
     session_start();
 }
-if(!isset($_SESSION["stagiaire"])){
-    //header("Location: ./login.html");
+if(!isset($_SESSION["user-stagiaire"])){
+    header("Location: ./login-page.php");
 }
+
+$USER = $_SESSION["user-stagiaire"];
 
 $allWorks = array();
 $notSubmittedWorks = array();
@@ -18,7 +20,7 @@ try {
     // Connexion à la base de données
     $mysqli = new mysqli("localhost", "root", "", "stagiaire", 3306);
     if (true) {
-        $id = 14;
+        $id = $_SESSION["user-stagiaire"]["id"];
 
         $reqAllWorks = "SELECT * FROM travaux_v WHERE id_staigiare=$id ";
         $reqNotSubmittedWorks = "SELECT * FROM travaux_non_deposes WHERE id_staigiare=$id";

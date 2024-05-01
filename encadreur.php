@@ -11,7 +11,7 @@ include("./enginePhp/main.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stagiaire</title>
+    <title>Mon encadreur</title>
     <link rel="stylesheet" href="../assets/font-awesome/fontawesome.css">
     <link rel="stylesheet" href="../gestion_stagiaire/assets/css/style.css">
     <link rel="stylesheet" href="../gestion_stagiaire/assets/themify-icons/themify-icons.css">
@@ -70,7 +70,7 @@ include("./enginePhp/main.php");
                     </a>
                 </li>
 
-                <li>
+                <li onclick="deconnexionStagiaire()">
                     <a href="#">
                         <span class="icon">
                             <i class="ti-power-off"></i>
@@ -93,7 +93,6 @@ include("./enginePhp/main.php");
                     <input type="checkbox" name="dropdown-check" id="dropdown-check">
                     <div class="bell-container">
                         <i class="fa fa-bell"></i>
-
                         <?php
                         if ($notSubmittedWorksNum > 0) {
                             echo "<p class=\"notif-num\">$notSubmittedWorksNum</p>";
@@ -101,7 +100,21 @@ include("./enginePhp/main.php");
                         ?>
                     </div>
                     <div class="dropdown-content">
-                        
+                        <?php
+                        if ($notSubmittedWorksNum > 0) {
+                            foreach ($notSubmittedWorks as $workindex => $work) {
+                                $description = $work["description"];
+                                $id = $work["id"];
+                                $date = $work["date_fin"];
+                                echo "<a class=\"row gap align-center\" href=\"#\">
+                                            <p>$description à deposer au plus tard $date</p>
+                                            <i class=\"fa-regular fa-file\"></i>
+                                        </a>";
+                            }
+                        } else {
+                            echo "Pas de tâche pour le moment";
+                        }
+                        ?>
                     </div>
                 </div>
 
@@ -113,20 +126,24 @@ include("./enginePhp/main.php");
 
                     <img class="profile-img " src="../gestion_stagiaire/assets/imgs/customer02.jpg" alt="user profile">
                     <div class="profil-detail column align-center">
-                        <b style="font-size: 20px;">Iswa Senteri Josué</b>
+                        <b style="font-size: 20px;"><?php echo $USER["nom_complet_encadreur"];?></b>
 
                         <div class="row wrap gap center">
                             <div class="column align-center">
                                 <small>Departement</small>
-                                <p>lambda</p>
+                                <p><?php echo $USER["departement_encadreur"];?></p>
+                            </div>
+                            <div class="column align-center">
+                                <small>Fonction/titre</small>
+                                <p><?php echo $USER["fonction_encadreur"];?></p>
                             </div>
                             <div class="column align-center">
                                 <small>Téléphone</small>
-                                <p>lambda</p>
+                                <p><?php echo $USER["telephone_encadreur"];?></p>
                             </div>
                             <div class="column align-center">
                                 <small>e-mail</small>
-                                <p>lambda</p>
+                                <p><?php echo $USER["email_encadreur"];?></p>
                             </div>
                         </div>
                         <br>
@@ -140,6 +157,7 @@ include("./enginePhp/main.php");
     </div>
     <!-- =========== Scripts =========  -->
     <script src="../gestion_stagiaire/assets/js/main.js"></script>
+    <script src="./engineJs/main.js"></script>
 </body>
 
 </html>

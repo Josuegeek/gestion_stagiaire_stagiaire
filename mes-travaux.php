@@ -11,7 +11,7 @@ require("./enginePhp/main.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stagiaire</title>
+    <title>Mes travaux</title>
     <link rel="stylesheet" href="../assets/font-awesome/fontawesome.css">
     <link rel="stylesheet" href="../gestion_stagiaire/assets/css/style.css">
     <link rel="stylesheet" href="../gestion_stagiaire/assets/themify-icons/themify-icons.css">
@@ -46,7 +46,11 @@ require("./enginePhp/main.php");
                         <textarea class="input" name="comment" id="comment" cols="10" rows="5"></textarea>
                         <label for="comment" class="label">Commentaire</label>
                     </div>
-                    <div class="inputContainer">
+                    <div id="file-check-div" class="invisible" class="row">
+                        <input  type="checkbox" id="file-check">
+                        <label for="file-check">Modifier le fichier</label>
+                    </div>
+                    <div class="inputContainer"  id="file-div">
                         <input id="fichier" name="fichier" type="file" placeholder="a" class="input" required>
                         <label for="fichier" class="label">Fichier</label>
                     </div>
@@ -113,7 +117,7 @@ require("./enginePhp/main.php");
                     </a>
                 </li>
 
-                <li>
+                <li onclick="deconnexionStagiaire()">
                     <a href="#">
                         <span class="icon">
                             <i class="ti-power-off"></i>
@@ -151,7 +155,7 @@ require("./enginePhp/main.php");
                                 $date = $work["date_fin"];
                                 echo "<a class=\"row gap align-center\" href=\"#\">
                                             <p>$description à deposer au plus tard $date</p>
-                                            <i class=\"fa fa-bell\"></i>
+                                            <i class=\"fa-regular fa-file\"></i>
                                         </a>";
                             }
                         }
@@ -202,6 +206,7 @@ require("./enginePhp/main.php");
     <!-- =========== Scripts =========  -->
     <script src="../gestion_stagiaire/assets/isjoverform/isjoverform.js"></script>
     <script src="../gestion_stagiaire/assets/js/main.js"></script>
+    <script src="./engineJs/main.js"></script>
     <script src="./engineJs/list.js"></script>
 
 </body>

@@ -3,6 +3,17 @@ if (session_status() != PHP_SESSION_ACTIVE) {
     session_start();
 }
 include("./enginePhp/main.php");
+$classStatus="";
+
+if(isset($USER["status"])){
+    if($USER["status"]=="En cours"){
+        $classStatus = "delivered";
+    }
+    else{
+        $classStatus = "return";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +81,7 @@ include("./enginePhp/main.php");
                     </a>
                 </li>
 
-                <li>
+                <li onclick="deconnexionStagiaire()">
                     <a href="#">
                         <span class="icon">
                             <i class="ti-power-off"></i>
@@ -87,7 +98,7 @@ include("./enginePhp/main.php");
                 <div class="toggle">
                     <i id="menu-toggle" class="ti-menu"></i>
                 </div>
-                <div class="top-title">Bienvenue </div>
+                <div class="top-title">Bienvenue <?php echo $USER["nom_complet"];?></div>
 
                 <div class="dropdown">
                     <input type="checkbox" name="dropdown-check" id="dropdown-check">
@@ -100,24 +111,22 @@ include("./enginePhp/main.php");
                         ?>
                     </div>
                     <div class="dropdown-content">
-                        <!------
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
-                        <a class="row align-center gap align-center" href="">
-                            <i class="fa-regular fa-file"></i>
-                            <b>Depôt du rapport</b>
-                        </a>
-                        ---->
+                        <?php
+                        if ($notSubmittedWorksNum > 0) {
+                            foreach ($notSubmittedWorks as $workindex => $work) {
+                                $description = $work["description"];
+                                $id = $work["id"];
+                                $date = $work["date_fin"];
+                                echo "<a class=\"row gap align-center\" href=\"#\">
+                                            <p>$description à deposer au plus tard $date</p>
+                                            <i class=\"fa-regular fa-file\"></i>
+                                        </a>";
+                            }
+                        }
+                        else{
+                            echo "Pas de tâche pour le moment";
+                        }
+                        ?>
                     </div>
                 </div>
 
@@ -128,73 +137,73 @@ include("./enginePhp/main.php");
                 <div class="recentOrders">
 
                     <div class="couverture gap">
-                        <p>Stagiaire Academique</p>
-                        <span class="delivered">En cours</span>
+                        <p>Stagiaire <?php echo $USER["type_stage"];?></p>
+                        <span class="<?php echo $classStatus;?>"><?php echo $USER["status"];?></span>
                     </div>
                     <img class="profile-img" src="../gestion_stagiaire/assets/imgs/customer02.jpg" alt="user profile">
                     <div class="profil-detail column align-center">
-                        <b style="font-size: 20px;">Iswa Senteri Josué</b>
+                        <b style="font-size: 20px;"><?php echo $USER["nom_complet"];?></b>
 
                         <div class="row wrap gap center">
                             <div class="column align-center">
                                 <small>province d'origine</small>
-                                <p>lambda</p>
+                                <p><?php echo $USER["province"];?></p>
                             </div>
                             <div class="column align-center">
                                 <small>district d'origine</small>
-                                <p>lambda</p>
+                                <p><?php echo $USER["district"];?></p>
                             </div>
                             <div class="column align-center">
-                                <small>vallge d'origine</small>
-                                <p>lambda</p>
+                                <small>village d'origine</small>
+                                <p><?php echo $USER["village"];?></p>
                             </div>
                         </div>
                         <div class="row wrap gap center">
                             <div class="column align-center">
                                 <small>Lieu et date de naissance</small>
-                                <p>lambda, 09/06/2021</p>
+                                <p><?php echo $USER["lieu_naissance"].", ".$USER["date_naissance"];?></p>
                             </div>
                             <div class="column align-center">
                                 <small>Adresse complet</small>
-                                <p>lambda</p>
+                                <p><?php echo $USER["adresse"];?></p>
                             </div>
                             <div class="column align-center">
                                 <small>Téléphone</small>
-                                <p>+243 816332364</p>
+                                <p><?php echo $USER["telephone"];?></p>
                             </div>
                         </div>
                         <div class="row wrap gap center">
                             <div class="column align-center">
                                 <small>Faculté</small>
-                                <p>lambda</p>
+                                <p><?php echo $USER["fac"];?></p>
                             </div>
                             <div class="column align-center">
                                 <small>Departement</small>
-                                <p>lambda</p>
+                                <p><?php echo $USER["dept_fac"];?></p>
                             </div>
                             <div class="column align-center">
                                 <small>Directeur</small>
-                                <p>lambda</p>
+                                <p><?php echo $USER["directeur"];?></p>
                             </div>
                         </div>
                         <div class="row wrap gap">
                             <div class="column align-center">
                                 <small>Stage dans le departement</small>
-                                <b>lambda</b>
+                                <b><?php echo $USER["departement"];?></b>
                             </div>
                             <div class="column align-center">
                                 <small>Fonction/titre</small>
-                                <b>lambda</b>
+                                <b><?php echo $USER["fonction"];?></b>
                             </div>
                         </div>
                         <div class="row wrap gap center">
                             <div class="column align-center">
                                 <small>Date de debut du stage</small>
-                                <b>lambda</b>
+                                <b><?php echo $USER["date_debut"];?></b>
                             </div>
                             <div class="column align-center">
                                 <small>Durée </small>
-                                <b>lambda</b>
+                                <b><?php echo $USER["duree"]." mois";?></b>
                             </div>
                         </div>
                     </div>
@@ -206,6 +215,7 @@ include("./enginePhp/main.php");
     </div>
     <!-- =========== Scripts =========  -->
     <script src="../gestion_stagiaire/assets/js/main.js"></script>
+    <script src="./engineJs/main.js"></script>
 </body>
 
 </html>

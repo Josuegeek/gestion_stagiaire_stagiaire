@@ -1,5 +1,13 @@
+<?php
+if (session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
+//include("./enginePhp/main.php");
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +17,12 @@
     <link rel="stylesheet" href="../gestion_stagiaire/assets/isjoverform/isjoverform.css">
     <link rel="stylesheet" href="../gestion_stagiaire/assets/themify-icons/themify-icons.css">
 </head>
+
 <body>
+
+    <?php
+    require("../gestion_stagiaire/enginePhp/showAlert.php");
+    ?>
 
     <div class="isjoverform2">
         <div id="signupFrm" class="signupFrm">
@@ -18,17 +31,17 @@
                     <div style="color: var(--blue);" id="form-title" class="top-title">Connectez-vous</div>
                     <br>
                     <br>
-                    <div style="display: none;" class="inputContainer">
-                        <input id="id" name="id" type="number" placeholder="a" class="input" value="<?php echo $encNum ?>" required>
-                        <label for="id" class="label">ID de l'encadreur</label>
+                    <div class="inputContainer">
+                        <input id="useremail" name="useremail" type="email" placeholder="a" class="input" required>
+                        <label for="useremail" class="label">Email</label>
                     </div>
                     <div class="inputContainer">
-                        <input id="email" name="email" type="email" placeholder="a" class="input" required>
-                        <label for="email" class="label">Email</label>
-                    </div>
-                    <div class="inputContainer">
-                        <input id="pass" name="pass" type="password" placeholder="a" class="input" required>
+                        <input id="userpassword" name="userpassword" type="password" placeholder="a" class="input" required>
                         <label for="pass" class="label">Code</label>
+                    </div>
+                    <div class="inputContainer align-center">
+                        <input id="rememberuser" name="rememberuser" type="checkbox">
+                        <label for="rememberuser" class="label">Se souvenir de moi</label>
                     </div>
                     <div class="row gap">
                         <button id="btn-add-enc" class="btn">Login</button>
@@ -39,6 +52,9 @@
             </div>
         </div>
     </div>
-    
+
+    <script src="../gestion_stagiaire/assets/js/main.js"></script>
+    <script src="./engineJs/main.js"></script>
 </body>
+
 </html>

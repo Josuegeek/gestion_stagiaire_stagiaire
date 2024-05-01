@@ -3,17 +3,20 @@ let xhr = new XMLHttpRequest();
 
 let table = document.getElementById('workTable');
 const formTitle = document.getElementById("form-title"),
-      workTitle = document.getElementById("work-title"),
-      datePubLbl= document.getElementById("pub-date"),
-      dateFinLbl = document.getElementById("fin-date"),
-      idInput = document.getElementById("id"),
-      commentInput = document.getElementById("comment"),
-      fileSpan = document.querySelector(".file-shower span"),
-      operationInput = document.getElementById("operation"),
-      btnSubmit = document.getElementById("btn-submit"),
-      fileInput = document.getElementById("fichier"),
-      fileImg = document.querySelector(".file-shower i"),
-      workForm = document.getElementById("work-form");
+    workTitle = document.getElementById("work-title"),
+    datePubLbl = document.getElementById("pub-date"),
+    dateFinLbl = document.getElementById("fin-date"),
+    idInput = document.getElementById("id"),
+    commentInput = document.getElementById("comment"),
+    fileSpan = document.querySelector(".file-shower span"),
+    operationInput = document.getElementById("operation"),
+    btnSubmit = document.getElementById("btn-submit"),
+    fileInput = document.getElementById("fichier"),
+    fileImg = document.querySelector(".file-shower i"),
+    workForm = document.getElementById("work-form"),
+    fileCheckDiv = document.getElementById("file-check-div"),
+    fileCheck = document.getElementById("file-check"),
+    fileDiv = document.getElementById("file-div");
 
 if (document.getElementById("searchBtn")) {
     document.getElementById("searchBtn").addEventListener('click', () => {
@@ -24,7 +27,7 @@ if (document.getElementById("searchBtn")) {
 
 let tbody = table.querySelector('tbody');
 // Définition de la méthode et de l'URL de la requête
-xhr.open("POST", "./enginePhp/lire.php?id="+14, true);
+xhr.open("POST", "./enginePhp/lire.php?id=" + 14, true);
 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
 let allWorks = [], notSubmitted = [], subimitted = [];
@@ -53,13 +56,13 @@ xhr.onload = function () {
                     //else classi = "status delivered";
                 }
                 else classi = "status return";
-                
+
                 let point_obtenu = allWorks[i].point_obtenu;
-                if(allWorks[i].point_obtenu==null){
-                    point_obtenu="-/20";
+                if (allWorks[i].point_obtenu == null) {
+                    point_obtenu = "-/20";
                 }
-                else{
-                    point_obtenu=allWorks[i].point_obtenu+"/20";
+                else {
+                    point_obtenu = "<b>" + allWorks[i].point_obtenu + "</b> /20";
                 }
 
                 tbody.innerHTML += `
@@ -72,12 +75,12 @@ xhr.onload = function () {
                     <td>${point_obtenu}</td>
                     <td>
                         <ul>
-                            <li style="${(allWorks[i].statut=="Deposé")? "display:none;" : "display:block;"}" onclick="showEditForm(${allWorks[i].id}, 'insert')">
+                            <li style="${(allWorks[i].statut == "Deposé") ? "display:none;" : "display:block;"}" onclick="showEditForm(${allWorks[i].id}, 'insert')">
                                 <a class="small-btn bg-primary" href="#">
                                     Deposer
                                 </a>
                             </li>
-                            <li style="${(allWorks[i].statut!="Deposé")? "display:none;" : "display:block;"}" onclick="showEditForm(${allWorks[i].id}, 'edit')">
+                            <li style="${(allWorks[i].statut != "Deposé") ? "display:none;" : "display:block;"}" onclick="showEditForm(${allWorks[i].id}, 'edit')">
                                 <a class="small-btn bg-yellow" href="#">
                                     Modifier
                                 </a>
@@ -102,50 +105,58 @@ xhr.onload = function () {
 // Envoi de la requête
 xhr.send();
 
-function showEditForm(id, op){
-    
+function showEditForm(id, op) {
+
     let work = {};
 
-    if(op=="edit"){
-        work = subimitted.find(w=>w.id==id)
+    if (op == "edit") {
+        work = subimitted.find(w => w.id == id)
     }
-    else{
-        work = allWorks.find(w=>w.id==id)
+    else {
+        work = allWorks.find(w => w.id == id)
     }
     //console.log(work, allWorks, id);
-    if(work){
+    if (work) {
         //console.log(work);
         showIsjPopupForm(work, op);
     }
 }
 
-function showIsjPopupForm(work, op){
+function showIsjPopupForm(work, op) {
     workForm.reset();
     //console.log(work)
-    if(work){
-        formTitle.textContent = (op=="edit")? "Modifier le travail N° " + work.id : "Deposer le travail N° " + work.id;
+    if (work) {
+        formTitle.textContent = (op == "edit") ? "Modifier le travail N° " + work.id : "Deposer le travail N° " + work.id;
         workTitle.textContent = work.description;
         datePubLbl.textContent = "Publié en " + work.date_pub;
         dateFinLbl.textContent = "A déposer jusqu'au " + work.date_fin;
-        commentInput.value = (op=="edit")? work.commentaire : "";
+        commentInput.value = (op == "edit") ? work.commentaire : "";
         idInput.value = work.id;
-        fileSpan.textContent = (op=="edit")? work.fichier : "Aucun fichier choisi";
-        if(op=="edit"){
+        fileSpan.textContent = (op == "edit") ? work.fichier : "Aucun fichier choisi";
+        if (op == "edit") {
             btnSubmit.textContent = "Modifier";
             operationInput.value = "edit";
             fileImg.classList.remove("invisible");
+            fileCheckDiv.classList.remove("invisible");
+            fileDiv.classList.add("invisible");
+            fileDiv.classList.remove("inputContainer");
+            fileInput.disabled = true;
         }
-        else{
+        else {
             btnSubmit.textContent = "Deposer";
             operationInput.value = "insert";
             fileImg.classList.add("invisible")
+            fileCheckDiv.classList.add("invisible");
+            fileDiv.classList.remove("invisible");
+            fileDiv.classList.add("inputContainer");
+            fileInput.disabled = false;
         }
         showIsjForm2(0);
     }
 }
 
 function reloadTable() {
-    xhr.open("POST", "./enginePhp/lire.php?id="+14, true);
+    xhr.open("POST", "./enginePhp/lire.php?id=" + 14, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send();
 
@@ -179,21 +190,34 @@ function search(mot) {
     });
 }
 
-fileInput.addEventListener("change", (event)=>{
+fileInput.addEventListener("change", (event) => {
     const fichiers = event.target.files;
     //console.log(fichiers)
-    if(fichiers.length>0){
+    if (fichiers.length > 0) {
         fileImg.classList.remove("invisible");
         fileSpan.textContent = fichiers[0].name;
     }
-    else{
+    else {
         fileImg.classList.add("invisible");
     }
 
-})
+});
+
+fileCheck.addEventListener("change", (e) => {
+    if (e.target.checked) {
+        fileDiv.classList.remove("invisible");
+        fileDiv.classList.add("inputContainer");
+        fileInput.disabled = false;
+    }
+    else {
+        fileDiv.classList.add("invisible");
+        fileDiv.classList.remove("inputContainer");
+        fileInput.disabled = true;
+    }
+});
 
 function showForm() {
-    
+
     showIsjForm2(0);
-    
+
 }

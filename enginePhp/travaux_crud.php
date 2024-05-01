@@ -81,17 +81,19 @@ function modifier()
             //$idStagiaire = $_POST['num'];
             //$idEnc = $_POST['numEnc'];
             $fichier = "";
-            if (saveFile() != false) {
-                $fichier = $_FILES["fichier"]['name'];
+            if (saveFile() !== false) {
+                $fichier = (isset($_FILES["fichier"])) ? $_FILES["fichier"]['name'] : "";
                 $mysqli = new mysqli("localhost", "root", "", "stagiaire", 3306);
 
                 //debut de la transaction
                 $mysqli->begin_transaction();
 
                 //$id = getLastIndex();
-
-                $req =  "UPDATE travaux_deposes SET commentaire='$comment', fichier='$fichier' 
+                $req = "UPDATE travaux_deposes SET commentaire='$comment' WHERE id_travail='$idTravail'";
+                if ($fichier != "")
+                    $req =  "UPDATE travaux_deposes SET commentaire='$comment', fichier='$fichier' 
                      WHERE id_travail='$idTravail'";
+
                 //echo $req;
 
                 if ($mysqli->query($req)) {
@@ -103,9 +105,8 @@ function modifier()
                 } else {
                     $_SESSION["errorMsg"] = "Erreur pendant la modification du dossier";
                 }
-            }
-            else{
-                $_SESSION["errorMsg"] = "Erreur pendant la modification du fichier";
+            } else {
+                $_SESSION["errorMsg"] = "Erreur pendant la modification du fichier (saveFile)";
             }
         } else {
             $_SESSION["errorMsg"] = "Erreur de post";
@@ -121,18 +122,22 @@ function modifier()
 //fonction pour sauvegarder le fichier uplodé
 function saveFile()
 {
-    $name = "Stagiaire 1";
-    $folder = "../fichiers_stagiaires/$name/";
-    $file_name = $_FILES["fichier"]['name'];
-    $destination = "$folder/$file_name";
-    if (!is_dir($folder)) {
-        mkdir("$folder");
-        //mkdir("../../managing/accords/accord$num/img/");
-    }
+    if (isset($_FILES["fichier"])) {
+        $name = "Stagiaire 1";
+        $folder = "../fichiers_stagiaires/$name/";
+        $file_name = $_FILES["fichier"]['name'];
+        $destination = "$folder/$file_name";
+        if (!is_dir($folder)) {
+            mkdir("$folder");
+            //mkdir("../../managing/accords/accord$num/img/");
+        }
 
-    if (move_uploaded_file($_FILES["fichier"]['tmp_name'], $destination))
-        return $file_name;
-    else return false;
+        if (move_uploaded_file($_FILES["fichier"]['tmp_name'], $destination))
+            return $file_name;
+        else return false;
+    } else {
+        return true;
+    }
 }
 
 function getLastIndex()

@@ -14,8 +14,8 @@ $allWorksNum = 0;
 try {
     // Connexion à la base de données
     $mysqli = new mysqli("localhost", "root", "", "stagiaire", 3306);
-    if (isset($_GET["id"]) && $_GET["id"] != "") {
-        $id = $_GET["id"];
+    if (isset($_SESSION["user-stagiaire"])) {
+        $id = $_SESSION["user-stagiaire"]["id"];
 
         $reqAllWorks = "SELECT * FROM travaux_v WHERE id_staigiare=$id ";
         $reqNotSubmittedWorks = "SELECT * FROM travaux_non_deposes WHERE id_staigiare=$id";
